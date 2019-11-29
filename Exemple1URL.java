@@ -1,9 +1,10 @@
 /**
- * Actividad 2Conjunta M9-UF3
+ * M9-UF3
+ * Actividad 2 Conjunta
+ * 
  * @author Johan Gonzalez (Xevcan), Andreu Tutusaus (Irimedas)
- * @version 28/11/2019
+ * @version 29/11/2019
  */
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,34 +19,29 @@ public class Exemple1URL {
 		
 		//Inicialización de variables
 		URL url = null;
-		String param = args[0];
-		int port = Integer.parseInt(args[1]);
-		int i,j;
-		String http =""; 
-		String link ="";
-		String directory ="";
+		URL new_url = null;
+		String url_str = "";
+		int port = 0;
 		
-		//Separar la dirección en distintas variables
+//		url_str = "http://www.catastro.meh.es/";
+//		port = 80;
+		
+		
+		//Comprobamos lo parametros pasados de forma basica para
+		//asegurarnos de que no falte ninguno
 		try {
-			i = param.indexOf(':');
-			j = link.indexOf('/');
-			
-			http = param.substring(0, i);
-			link = param.substring(i+3, param.length());
-			directory = link.substring(j, link.length());
-			link = param.substring(i+3, param.length()-1);
-			
-//			System.out.println(http + "|" + link + "|" + directory);
-					
-		}  catch (Exception e) {
-			System.err.println("URL mal introducida.    Ejemplo: (https://github.com)");
+			url_str = args[0];
+			port = Integer.parseInt(args[1]);
+		}catch (Exception e) {
+			System.out.println("parametro 1 -> url\n"+
+					   "parametro 1 -> puerto\n");
 		}
-		 
-		//Comprovar que la URL sea correcta, y que el constructor
-		//construya de forma correcta
+		
 		try {	
-			url = new URL(http, link, port, directory);
-			getURLSauce(url);
+			url = new URL(url_str);
+//			Visualitzar(url, port);
+			new_url = transformURL(url, port);
+			getURLSauce(new_url);
 			
 		} catch (MalformedURLException e) {
 			System.err.println("Puerto o Link incorrecto.");
@@ -54,14 +50,12 @@ public class Exemple1URL {
 	
 	/**
 	 * Pasamos la URL y solicitamos el HTML de la web
-	 * @param url URL
 	 */
 	public static void getURLSauce(URL url) {
 		
 		BufferedReader in;
 		
 		try {
-			
 			InputStream inputStream = url.openStream();
 			in = new BufferedReader(new InputStreamReader(inputStream));
 			
@@ -72,21 +66,51 @@ public class Exemple1URL {
 			in.close();
 			
 		} catch (IOException e) {e.printStackTrace(); }
-
 	}
-
-//	private static void Visualitzar(URL url) {
-//		
-//		System.out.println("\tURL complerta: "+url.toString());
-//		System.out.println("\tgetProtocol: "+url.getProtocol());
-//		System.out.println("\tgetHost: "+url.getHost());
-//		System.out.println("\tgetPort: "+url.getPort());
-//		System.out.println("\tgetFile: "+url.getFile());
-//		System.out.println("\tgetUserInfo: "+url.getUserInfo());
-//		System.out.println("\tgetPath: "+url.getPath());
-//		System.out.println("\tgetAuthority: "+url.getAuthority());
-//		System.out.println("\tgetQuery: "+url.getQuery());
-//		System.out.println("=====================================================");
-//	}
-
+	
+	/**
+	 * Transformamos la url que nos pasan por parametros
+	 * en una url que utilize el puerto que definimos por parametros
+	 */
+	private static URL transformURL(URL url, int port) throws MalformedURLException{
+		String url_str = 
+				url.getProtocol() + "://" + url.getHost() + ":" + port + url.getPath();
+		
+		System.out.println("Resultado ->> " + url_str);
+		URL new_url = new URL(url_str);
+		return new_url;	
+	}
+	
+	/**
+	 * Vemos una comparativa de parametros entre la url pasada
+	 * por parametros y la url generada con el puerto.
+	 */
+	private static void Visualitzar(URL url, int port) throws MalformedURLException {
+		
+		System.out.println("=====================================================");
+		System.out.println("\tURL complerta: "+url.toString());
+		System.out.println("\tgetProtocol: "+url.getProtocol());
+		System.out.println("\tgetHost: "+url.getHost());
+		System.out.println("\tgetPort: "+url.getPort());
+		System.out.println("\tgetFile: "+url.getFile());
+		System.out.println("\tgetUserInfo: "+url.getUserInfo());
+		System.out.println("\tgetPath: "+url.getPath());
+		System.out.println("\tgetAuthority: "+url.getAuthority());
+		System.out.println("\tgetQuery: "+url.getQuery());
+		System.out.println("=====================================================");
+		
+		URL url2 = transformURL(url, port);
+		
+		System.out.println("=====================================================");
+		System.out.println("\tURL complerta: "+url2.toString());
+		System.out.println("\tgetProtocol: "+url2.getProtocol());
+		System.out.println("\tgetHost: "+url2.getHost());
+		System.out.println("\tgetPort: "+url2.getPort());
+		System.out.println("\tgetFile: "+url2.getFile());
+		System.out.println("\tgetUserInfo: "+url2.getUserInfo());
+		System.out.println("\tgetPath: "+url2.getPath());
+		System.out.println("\tgetAuthority: "+url2.getAuthority());
+		System.out.println("\tgetQuery: "+url2.getQuery());
+		System.out.println("=====================================================");	
+	}
 }
