@@ -16,7 +16,7 @@ public class Exemple1URL {
 	
 	public static void main (String[] args) {
 		
-		//Inicialización de variables
+		//InicializaciÃ³n de variables
 		URL url = null;
 		String param = args[0];
 		int port = Integer.parseInt(args[1]);
@@ -25,7 +25,7 @@ public class Exemple1URL {
 		String link ="";
 		String directory ="";
 		
-		//Separar la dirección en distintas variables
+		//Separar la direcciÃ³n en distintas variables
 		try {
 			i = param.indexOf(':');
 			j = link.indexOf('/');
@@ -38,7 +38,6 @@ public class Exemple1URL {
 //			System.out.println(http + "|" + link + "|" + directory);
 					
 		}  catch (Exception e) {
-			// TODO: handle exception
 			System.err.println("URL mal introducida.    Ejemplo: (https://github.com)");
 		}
 		 
